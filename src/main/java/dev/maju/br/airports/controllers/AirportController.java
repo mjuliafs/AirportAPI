@@ -4,6 +4,7 @@
  */
 package dev.maju.br.airports.controllers;
 
+import DTO.AirportMinDTO;
 import dev.maju.br.airports.entities.Airport;
 import dev.maju.br.airports.service.AirportService;
 import java.util.List;
@@ -54,7 +55,30 @@ public class AirportController {
             // Eba! Tem dados!
             // ok devolve 200
             return ResponseEntity.ok(result);
+            
         }
+        
+            
+        
+   
+        
     }
-    
+          
+    @GetMapping("/country/{countryName}")
+    public ResponseEntity<List<AirportMinDTO>> findByCountryIgnoreCase(@PathVariable String countryName) {
+        List<AirportMinDTO> result = airportService.findByCountry(countryName);
+        if (result.isEmpty()) {
+            // Ops... lista vazia...
+            // notFound devolve 404
+            return ResponseEntity.notFound().build();
+            
+        } else {
+            // Eba! Tem dados!
+            // ok devolve 200
+            return ResponseEntity.ok(result);
+
+        }
+
+    }
+
 }
