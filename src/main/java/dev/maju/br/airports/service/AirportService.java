@@ -4,8 +4,10 @@
  */
 package dev.maju.br.airports.service;
 
-import DTO.AirportMinDTO;
+import dev.maju.br.airports.DTO.AirportMinDTO;
+import dev.maju.br.airports.DTO.AirportNearMeDTO;
 import dev.maju.br.airports.entities.Airport;
+import dev.maju.br.airports.projections.AirportNearMeProjection;
 import dev.maju.br.airports.repositories.AirportRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,15 @@ public class AirportService {
                 
                 Airport result = airportRepository.findByIataCode(iataCode);
                 return result;
+            }
+            
+            public List<AirportNearMeDTO> findNearMe(double latitude, double longitude) {
+                List<AirportNearMeProjection> resultNearAirports = airportRepository.findNearMe(latitude, longitude);
+                
+                List<AirportNearMeDTO> resultDTO = resultNearAirports.stream()
+                        .map(x -> new AirportNearMeDTO(x)).toList();
+                
+                return resultDTO;
             }
         }
 
